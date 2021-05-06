@@ -23,5 +23,5 @@ module.exports = {
       url: "https://kovan4.arbitrum.io/rpc",
       accounts: accounts,
     },
-  }
+  },
 };

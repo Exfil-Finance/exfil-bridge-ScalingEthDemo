@@ -10,10 +10,10 @@ contract GreeterL2 is Greeter {
 
     event L2ToL1TxCreated(uint256 indexed withdrawalId);
 
-    constructor(
-        string memory _greeting,
-        address _l1Target
-    ) public Greeter(_greeting) {
+    constructor(string memory _greeting, address _l1Target)
+        public
+        Greeter(_greeting)
+    {
         l1Target = _l1Target;
     }
 
