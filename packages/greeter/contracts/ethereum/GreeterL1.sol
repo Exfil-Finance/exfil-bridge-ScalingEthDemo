@@ -32,7 +32,7 @@ contract GreeterL1 is Greeter {
     ) public payable returns (uint256) {
         bytes memory data =
             abi.encodeWithSelector(Greeter.setGreeting.selector, _greeting);
-        
+
         uint256 ticketID = inbox.createRetryableTicket{value: msg.value}(
             l2Target,
             0,
@@ -49,6 +49,9 @@ contract GreeterL1 is Greeter {
     }
 
     /// @notice only l2Target can update greeting
+    // TODO: CHANGE THIS TO GET INITIATE EXFIL MESSAGE FROM L2, AND KICKOFF ORACLE VERIFICATION WITH STATE/WITHDRAWAL TX ID
+    // RETURNS A BOOL (ISVALIDWITHDRAWAL)
+    // IF ISVALID == TRUE, CALL INIT FAST WITHDRAWAL ON ETHERC20BRIDGE.SOL with proof and address of LP contract
     function setGreeting(string memory _greeting) public override {
         IOutbox outbox = IOutbox(inbox.bridge().activeOutbox());
         address l2Sender = outbox.l2ToL1Sender();

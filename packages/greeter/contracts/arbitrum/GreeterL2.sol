@@ -21,6 +21,7 @@ contract GreeterL2 is Greeter {
         l1Target = _l1Target;
     }
 
+    // TODO: CHANGE THIS TO "SEND_INITIATE_EXFIL_MESSAGE"
     function setGreetingInL1(string memory _greeting) public returns (uint256) {
         bytes memory data =
             abi.encodeWithSelector(Greeter.setGreeting.selector, _greeting);
