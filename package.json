@@ -1,8 +1,8 @@
 {
-  "name": "arbitrum-interop-quickstart",
+  "name": "exfil",
   "version": "1.0.0",
-  "description": "The Arbitrum Interoperability Quickstart Monorepo",
-  "author": "Offchain Labs, Inc.",
+  "description": "Fast Withdrawals",
+  "author": "Mark Barrasso and David Goldberg",
   "license": "Apache-2.0",
   "private": "true",
   "engines": {
@@ -12,7 +12,7 @@
   },
   "workspaces": {
     "packages": [
-      "packages/greeter",
+      "packages/exfil",
       "packages/example-echo"
     ]
   },

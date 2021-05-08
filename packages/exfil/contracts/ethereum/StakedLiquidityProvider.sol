@@ -1,21 +1,3 @@
-// SPDX-License-Identifier: Apache-2.0
-
-/*
- * Copyright 2020, Offchain Labs, Inc.
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *    http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
-
 pragma solidity ^0.6.11;
 
 import "arb-bridge-eth/contracts/rollup/Rollup.sol";
@@ -52,7 +34,10 @@ contract StakedLiquidityProvider is Ownable, IExitLiquidityProvider {
         address erc20,
         uint256 amount
     ) external onlyOwner {
-        require(IERC20(erc20).transfer(dest, amount), "INSUFFICIENT_LIQUIDITIY");
+        require(
+            IERC20(erc20).transfer(dest, amount),
+            "INSUFFICIENT_LIQUIDITIY"
+        );
     }
 
     // TODO: REQUEST LIQUIDITY FROM TRUSTED STAKER ADDRESS AKA EXFIL LP CONTRACT ADDRESS
@@ -70,15 +55,30 @@ contract StakedLiquidityProvider is Ownable, IExitLiquidityProvider {
             uint256 merklePath,
             uint256 l2Block,
             uint256 l2Timestamp
-        ) = abi.decode(liquidityProof, (uint256, bytes32[], uint256, uint256, uint256));
+        ) =
+            abi.decode(
+                liquidityProof,
+                (uint256, bytes32[], uint256, uint256, uint256)
+            );
 
-        bytes32 userTx = userTxHash(exitNum, dest, erc20, amount, l2Block, l2Timestamp);
+        bytes32 userTx =
+            userTxHash(exitNum, dest, erc20, amount, l2Block, l2Timestamp);
         bytes32 confirmRoot =
-            MerkleLib.calculateRoot(withdrawProof, merklePath, keccak256(abi.encodePacked(userTx)));
-        require(confirmRoots.confirmRoots(confirmRoot, nodeNum), "INVALID_ROOT");
+            MerkleLib.calculateRoot(
+                withdrawProof,
+                merklePath,
+                keccak256(abi.encodePacked(userTx))
+            );
+        require(
+            confirmRoots.confirmRoots(confirmRoot, nodeNum),
+            "INVALID_ROOT"
+        );
         require(rollup.getNode(nodeNum).stakers(trustedStaker), "NOT_TRUSTED");
         uint256 fee = amount / fee_div;
-        require(IERC20(erc20).transfer(dest, amount - fee), "INSUFFICIENT_LIQUIDITIY");
+        require(
+            IERC20(erc20).transfer(dest, amount - fee),
+            "INSUFFICIENT_LIQUIDITIY"
+        );
     }
 
     function userTxHash(

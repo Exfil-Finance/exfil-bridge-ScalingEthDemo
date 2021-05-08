@@ -1,9 +1,9 @@
-// SPDX-License-Identifier: Apache-2.0
 pragma solidity ^0.6.11;
 
-
 interface IInbox {
-    function sendL2Message(bytes calldata messageData) external returns (uint256);
+    function sendL2Message(bytes calldata messageData)
+        external
+        returns (uint256);
 
     function sendUnsignedTransaction(
         uint256 maxGas,
@@ -50,11 +50,15 @@ interface IInbox {
 
     function depositEth(address destAddr) external payable returns (uint256);
 
-    function depositEthRetryable(address destAddr, uint256 maxSubmissionCost, uint256 maxGas, uint256 maxGasPrice) external payable returns (uint256);
+    function depositEthRetryable(
+        address destAddr,
+        uint256 maxSubmissionCost,
+        uint256 maxGas,
+        uint256 maxGasPrice
+    ) external payable returns (uint256);
 
     function bridge() external view returns (IBridge);
 }
-
 
 interface IBridge {
     event MessageDelivered(
@@ -84,7 +88,6 @@ interface IBridge {
     function setOutbox(address inbox, bool enabled) external;
 
     // View functions
-
     function activeOutbox() external view returns (address);
 
     function allowedInboxes(address inbox) external view returns (bool);
